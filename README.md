@@ -1,6 +1,6 @@
 # Visailusovellus
 
-## Visailusovellus (Samantyyppinen kuin älypää, mutta ilman aikarajaa eli kevyempi versio älypäästä)
+## Visailusovellus (Vähän saman tyylinen kuin älypää)
 
 Sovelluksen perusidea on, että sivuilta löytyy visoja erinäisillä aiheilla, joita voi etsiä hakusanoilla.
 
