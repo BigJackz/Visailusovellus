@@ -8,9 +8,9 @@ Jokainen visa sisältää jonkin määrän kysymyksiä, sekä jokaiseen kysymyks
 
 Käyttäjä voi luoda tunnuksen, kirjautua sisään sekä ulos.
 
-Käyttäjä voi luoda sivuille uuden visan vastauksineen, sekä pelata sivuilta jo löytyviä visoja.
+Käyttäjä voi luoda sivuille uuden visan vastauksineen, sekä pelata sivulta jo löytyviä visoja.
 
-Sivuilta löytyy tilastot, joissa näkyy eniten täydellisesti suoritettuja visoja omaava käyttäjä sekä määrä siitä, montako visaa on suorittanut täydellisesti mahdollisesti myös mitkä visat.
+Sivulta löytyy tilastot, joissa näkyy eniten täydellisesti suoritettuja visoja omaava käyttäjä sekä määrä siitä, montako visaa on suorittanut täydellisesti mahdollisesti myös mitkä visat.
 
 Täydellisesti suoritettu visa on sellainen, jossa henkilö ei vastaa kertaakaan väärin.
 
