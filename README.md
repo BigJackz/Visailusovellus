@@ -16,4 +16,3 @@ Täydellisesti suoritettu visa on sellainen, jossa henkilö ei vastaa kertaakaan
 
 Mahdollinen haluatko miljonääriksi muoto, jossa tulisi monta visaa putkeen ja yhdellä väärällä vastauksella tippuu pois. (jos jää aikaa toteuttaa)
 
-test!
