@@ -42,4 +42,7 @@ Sovellukseen tulossa vielä kirjautuminen, sekä tietokanta, joka pitää yllä 
 
 Sovelluksen testaus onnistuu lataamalla koodin, luomalla tietokannat, vaihtamalla .env tiedostoon omien tietokantojen osoitteen ja käynnistämällä terminalista komennolla: flask run
 
+Sovellus käyttää, Flask, SQLAlchemy, getenv sekä random.
+
 HUOM! En saanut kurssimateriaalin mukaista sql intjektion estämistä toimimaan, joten ymmärtääkseni sql injektio on vielä mahdollista tässä sovelluksessa.
+
