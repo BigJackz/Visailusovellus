@@ -1,0 +1,48 @@
+Question:
+<input type="hidden" name="id" value = "{{ id }}">
+{{ question }}
+<hr>
+<br>
+</form>
+Answer 1:
+<form action="/result" method="POST">
+<input type="hidden" name="answer" value="{{ answer1 }}">
+<input type="hidden" name="id" value = "{{ id }}">
+{{ answer1 }}
+<br>
+<input type="submit" value="Choose">
+</form>
+<hr>
+<br>
+
+Answer 2:
+<form action="/result" method="POST">
+<input type="hidden" name="answer" value="{{ answer2 }}">
+<input type="hidden" name="id" value = "{{ id }}">
+{{ answer2 }}
+<br>
+<input type="submit" value="Choose">
+</form>
+<hr>
+<br>
+
+Answer 3:
+<form action="/result" method="POST">
+<input type="hidden" name="answer" value="{{ answer3 }}">
+<input type="hidden" name="id" value = "{{ id }}">
+{{ answer3 }}
+<br>
+<input type="submit" value="Choose">
+</form>
+<hr>
+<br>
+
+Answer 4:
+<form action="/result" method="POST">
+<input type="hidden" name="answer" value="{{ answer4 }}">
+<input type="hidden" name="id" value = "{{ id }}">
+{{ answer4 }}
+<br>
+<input type="submit" value="Choose">
+</form>
+<hr>
