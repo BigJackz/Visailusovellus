@@ -20,7 +20,7 @@ Mahdollinen haluatko miljonääriksi muoto, jossa tulisi monta visaa putkeen ja 
 
 ## Nykytilanne
 
-Sovelluksessa on mahdollista luoda yksittäisiä kysymyksiä sekä vastata satunnaisiin jo luotuoihin kysymyksiin. Kysymysten satunnaisuus tulee muuttumaan, mutta aluksi nyt vain näin, että sovellusta oli mukavampi testata.
+Sovelluksessa on mahdollista luoda yksittäisiä kysymyksiä sekä vastata satunnaisiin jo luotuoihin kysymyksiin. Kysymysten satunnaisuus tulee muuttumaan, mutta aluksi nyt vain näin, että sovellusta oli mukavampi testata. Sivun "/new" kohta Topic ei tee vielä mitään.
 
 Sovelluksen kaikki koodi on vielä tiedostossa app.py, josta se olisi tarkoitus refaktoroida jossain kohtaa.
 
