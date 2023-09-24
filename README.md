@@ -41,3 +41,5 @@ CREATE TABLE correct (id SERIAL PRIMARY KEY, question_id INTEGER REFERENCES ques
 Sovellukseen tulossa vielä kirjautuminen, sekä tietokanta, joka pitää yllä 10 kysymyksen visoja.
 
 Sovelluksen testaus onnistuu lataamalla koodin, luomalla tietokannat, vaihtamalla .env tiedostoon omien tietokantojen osoitteen ja käynnistämällä terminalista komennolla: flask run
+
+HUOM! En saanut kurssimateriaalin mukaista sql intjektion estämistä toimimaan, joten ymmärtääkseni sql injektio on vielä mahdollista tässä sovelluksessa.
