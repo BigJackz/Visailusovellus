@@ -32,5 +32,5 @@ Sovelluksen testaus onnistuu lataamalla koodin, luomalla tietokannat, vaihtamall
 
 Sovellus käyttää, Flask, SQLAlchemy, getenv sekä random.
 
-HUOM! En saanut kurssimateriaalin mukaista sql intjektion estämistä toimimaan, joten ymmärtääkseni sql injektio on vielä mahdollista tässä sovelluksessa.
+HUOM! En saanut kurssimateriaalin mukaista sql injektion estämistä toimimaan, joten ymmärtääkseni sql injektio on vielä mahdollista tässä sovelluksessa.
 
