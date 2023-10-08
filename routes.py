@@ -1,12 +1,7 @@
 from app import app
-from db import db
-from flask import redirect, render_template, request
-from sqlalchemy.sql import text
-from random import Random
-from tools import make_string
-from questions import get_question_and_answers
+from flask import redirect, render_template
+from questions import get_question_and_answers, get_result, send_question
 
-rng = Random()
 
 @app.route("/")
 def index():
@@ -18,33 +13,7 @@ def new():
 
 @app.route("/send", methods=["POST", "GET"])
 def send():
-    question = request.form["question"]
-    answer1 = request.form["answer1"]
-    answer2 = request.form["answer2"]
-    answer3 = request.form["answer3"]
-    right_answer = request.form["right_answer"]
-    sql = f"INSERT INTO questions (question) VALUES ('{question}');"
-    
-    print(sql)
-
-    db.session.execute(text(sql))
-    db.session.commit()
-
-    sql4 = "SELECT COUNT(*) FROM questions;"
-    result = db.session.execute(text(sql4))
-    count = str(result.fetchone())
-    count = make_string(count)
-    count = int(count)
-    sql2 = f"INSERT INTO answers (question_id, answer1, answer2, answer3, answer4) VALUES ('{count}', '{answer1}','{answer2}','{answer3}','{right_answer}');"
-
-    sql3 = f"INSERT INTO correct (question_id, answer) VALUES ('{count}', '{right_answer}');"
-    print(f"{count} this is count")
-
-    db.session.execute(text(sql2))
-
-    db.session.execute(text(sql3))
-    db.session.commit()
-
+    send_question()
     return redirect("/success")
 
 @app.route("/success")
@@ -62,13 +31,7 @@ def answer():
 
 @app.route("/result", methods=["POST","GET"])
 def result():
-    answer = request.form["answer"]
-    id = request.form["id"]
-    sql = f"SELECT answer FROM correct WHERE question_id = {id}"
-    result = db.session.execute(text(sql))
-    correct = result.fetchone()
-    correct = make_string(correct)
-    print(correct)
+    correct, answer = get_result()
     if correct == answer:
         return render_template("correct.html")
     else:
