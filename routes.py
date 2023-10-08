@@ -3,6 +3,8 @@ from db import db
 from flask import redirect, render_template, request
 from sqlalchemy.sql import text
 from random import Random
+from tools import make_string
+from questions import get_question_and_answers
 
 rng = Random()
 
@@ -31,7 +33,7 @@ def send():
     sql4 = "SELECT COUNT(*) FROM questions;"
     result = db.session.execute(text(sql4))
     count = str(result.fetchone())
-    count = count.strip('('+')'+',')
+    count = make_string(count)
     count = int(count)
     sql2 = f"INSERT INTO answers (question_id, answer1, answer2, answer3, answer4) VALUES ('{count}', '{answer1}','{answer2}','{answer3}','{right_answer}');"
 
@@ -51,43 +53,8 @@ def success():
 
 @app.route("/get_question", methods=["GET"])
 def get_question():
-    sql = "SELECT COUNT(*) FROM questions;"
-    result = db.session.execute(text(sql))
-    count = str(result.fetchone())
-    count = count.strip('('+')'+',')
-    count = int(count)
-    r = rng.randint(1,count)
-    id = r
-    print(f"id ennen kun haetaan kysymys {id}")
-    sql = f"SELECT question FROM questions WHERE id = {id}"
-    result = db.session.execute(text(sql))
-    question = result.fetchone()
-    print(f"id ennen kuin haetaan vastaukset {id}")
-    sql = f"SELECT (answer1, answer2, answer3, answer4) FROM answers WHERE question_id = {id}"
-    result = db.session.execute(text(sql))
-    answers = result.fetchall()
-    print("here is the result below")
-    answer1, answer2, answer3, answer4 = answers[0][0].split(",")
-    all = [answer1, answer2, answer3, answer4]
-
-    final_answers = []
-    for answer in all:
-        answer = answer.strip('(' + ')' + '"')
-        final_answers.append(answer)
-
-    for a in final_answers:
-        print(a)
-
-    question = str(question)
-    question = question.strip('(' + ')' + ',' + "'")
-
-    randoms = []
-    for i in range(4):
-        randoms.append(i)
-    rng.shuffle(randoms)
-
-
-    return render_template("answer.html", question=question, answer1=final_answers[randoms[0]], answer2=final_answers[randoms[1]], answer3=final_answers[randoms[2]], answer4=final_answers[randoms[3]], id = id)
+    random_order, question, final_answers,id = get_question_and_answers()
+    return render_template("answer.html", question=question, answer1=final_answers[random_order[0]], answer2=final_answers[random_order[1]], answer3=final_answers[random_order[2]], answer4=final_answers[random_order[3]], id = id)
 
 @app.route("/answer")
 def answer():
@@ -100,7 +67,7 @@ def result():
     sql = f"SELECT answer FROM correct WHERE question_id = {id}"
     result = db.session.execute(text(sql))
     correct = result.fetchone()
-    correct = str(correct).strip('(' + ')' + ',' + "'" + '"')
+    correct = make_string(correct)
     print(correct)
     if correct == answer:
         return render_template("correct.html")
