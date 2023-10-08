@@ -20,17 +20,49 @@ Mahdollinen haluatko miljonääriksi muoto, jossa tulisi monta visaa putkeen ja 
 
 ## Nykytilanne
 
-Sovelluksessa on mahdollista luoda yksittäisiä kysymyksiä sekä vastata satunnaisiin jo luotuoihin kysymyksiin. Kysymysten satunnaisuus tulee muuttumaan, mutta aluksi nyt vain näin, että sovellusta oli mukavampi testata. Sivun "/new" kenttä Topic ei tee vielä mitään.
+Sovelluksessa on mahdollista luoda yksittäisiä kysymyksiä sekä vastata satunnaisiin jo luotuoihin kysymyksiin. Kysymysten satunnaisuus tulee muuttumaan, mutta aluksi nyt vain näin, että sovellusta oli mukavampi testata.
 
-Sovelluksen kaikki koodi on vielä tiedostossa app.py, josta se olisi tarkoitus refaktoroida jossain kohtaa.
+Sovellus vaatii tällä hetkellä kolmea eri tietokantaa, questions, answers sekä correct. Lisää tulossa myöhemmin viimeistään sovelluksen viimeiseen versioon.
 
-Sovellus vaatii tällä hetkellä kolmea eri tietokantaa, questions, answers sekä correct. Lisää tulossa myöhemmin.
+Sovelluksen koodi refaktoroitu useampaan tiedostoon.
 
 Sovellukseen tulossa vielä kirjautuminen, sekä tietokanta, joka pitää yllä 10 kysymyksen visoja.
 
-Sovelluksen testaus onnistuu lataamalla koodin, luomalla tietokannat, vaihtamalla .env tiedostoon omien tietokantojen osoitteen ja käynnistämällä terminalista komennolla: flask run
+Sovelluksessa on mahdollista tarkastella kaikkia lisättyjä kysymyksiä, joista tulevaisuudessa pitäisi voida valita mihin aikoo vastata.
 
-Sovellus käyttää, Flask, SQLAlchemy, getenv sekä random.
+Sovelluksen sivujen navigointia parannettu.
+
+Sovellus jäi ominaisuuksiltaan vielä puutteelliseksi ajan puutteen takia.
 
 HUOM! En saanut kurssimateriaalin mukaista sql injektion estämistä toimimaan, joten ymmärtääkseni sql injektio on vielä mahdollista tässä sovelluksessa.
 
+## Käynnistysohje
+
+Kloonaa reposotirio omalle koneellesi
+´´´
+git clone git@github.com:BigJackz/Visailusovellus.git
+´´´
+Siirry sitten sovelluksen juurikansioon
+´´´
+cd Visailusovellus
+´´´
+Luo .env tiedosto ja lisää sinne tietokannan paikallinen osoite
+´´´
+DATABASE_URL=<tietokannan_paikallinen_osoite>
+´´´
+Aktivoi virtuaaliympäristö ja asenna riippuvuudet (requirements.txt saattaa sisältää liikaa riippuvuuksia, syytä en tiedä)
+´´´
+python3 -m venv venv
+source venv/bin/activate
+pip install flask-sqlalchemy
+pip install python-dotenv
+pip install psycopg2 tai pip install psycopg2-binary
+´´´
+Luo tietokannat tiedostosta schema.sql (sisältää tietokannat nimeltä, questions, answers, correct)
+´´´
+psql < schema.sql
+´´´
+Jonka jälkeen voi sovelluksen käynnistää komennolla
+´´´
+flask run
+´´´
