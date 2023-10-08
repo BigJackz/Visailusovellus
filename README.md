@@ -32,7 +32,7 @@ Sovelluksessa on mahdollista tarkastella kaikkia lisättyjä kysymyksiä, joista
 
 Sovelluksen sivujen navigointia parannettu.
 
-Sovellus jäi ominaisuuksiltaan vielä puutteelliseksi ajan puutteen takia.
+Sovellus jäi ominaisuuksiltaan vielä puutteelliseksi ajan puutteen takia. Sovellukseen on tulossa ainakin 2 uutta tietokantaa, joten kurssin vähimmäismäärä tulee täyteen.
 
 HUOM! En saanut kurssimateriaalin mukaista sql injektion estämistä toimimaan, joten ymmärtääkseni sql injektio on vielä mahdollista tässä sovelluksessa.
 
