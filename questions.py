@@ -24,12 +24,12 @@ def get_question_and_answers(id):
     if id == -1:
         id = random.randint(1,int(make_string(str(result.fetchone()))))
     
-    sql = f"SELECT question FROM questions WHERE id = {id}"
-    result = db.session.execute(text(sql))
+    sql = f"SELECT question FROM questions WHERE id=:id"
+    result = db.session.execute(text(sql), {"id":id})
     question = result.fetchone()
 
-    sql = f"SELECT (answer1, answer2, answer3, answer4) FROM answers WHERE question_id = {id}"
-    result = db.session.execute(text(sql))
+    sql = f"SELECT (answer1, answer2, answer3, answer4) FROM answers WHERE question_id = :id"
+    result = db.session.execute(text(sql), {"id":id})
     answers = result.fetchall()
 
     answer1, answer2, answer3, answer4 = answers[0][0].split(",")
@@ -52,8 +52,8 @@ def get_question_and_answers(id):
 def get_result():
     answer = request.form["answer"]
     id = request.form["id"]
-    sql = f"SELECT answer FROM correct WHERE question_id = {id}"
-    result = db.session.execute(text(sql))
+    sql = f"SELECT answer FROM correct WHERE question_id=:id"
+    result = db.session.execute(text(sql), {"id":id})
     correct = result.fetchone()
     correct = make_string(correct)
     return correct, answer
