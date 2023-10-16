@@ -1,6 +1,6 @@
 from app import app
 from db import db
-from flask import redirect, render_template, request
+from flask import request
 from sqlalchemy.sql import text
 from tools import make_string, check_length
 import random
