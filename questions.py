@@ -64,14 +64,28 @@ def send_question():
     answer2 = request.form["answer2"]
     answer3 = request.form["answer3"]
     right_answer = request.form["right_answer"]
-    answers = [answer1,answer2,answer3,right_answer]
+    answers = [answer1,answer2,answer3]
 
-    #Check if the question and answers are correct length
+    #Check if the question and answers are correct length 2
     for answer in answers:
         if check_length(answer, 1, 30) == False:
-            return False
+            return 2
     if check_length(question, 1, 100) == False:
-        return False
+        return 2
+    
+    #Check if one of the wrong answers is same as right answer 3
+    for answer in answers:
+        if answer == right_answer:
+            return 3
+
+    #Finally check if two of the answers are the same return 4
+    amount = 0
+    for answer in answers:
+        for answer2 in answers:
+            if answer == answer2:
+                amount += 1
+    if amount > 3:
+        return 4
 
     sql = f"INSERT INTO questions (question) VALUES ('{question}');"
 
@@ -88,4 +102,4 @@ def send_question():
     db.session.execute(text(sql2))
     db.session.execute(text(sql3))
     db.session.commit()
-    return True
+    return 1

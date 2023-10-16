@@ -12,10 +12,15 @@ def new():
 
 @app.route("/send", methods=["POST", "GET"])
 def send():
-    if send_question():
+    answer = send_question()
+    if answer == 1:
         return redirect("/success")
-    else:
+    elif answer == 2:
         return render_template("error.html", error = "Question or one of the answers is too long or short! Question must be between 1 and 100 characters and answers between 1 and 30 characters.")
+    elif answer == 3:
+        return render_template("error.html", error = "Right answer can't be the same as a wrong answer!")
+    elif answer == 4:
+        return render_template("error.html", error = "Two or more answers can't be the same!")
 
 @app.route("/success")
 def success():
