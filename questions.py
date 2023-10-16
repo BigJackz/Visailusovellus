@@ -87,19 +87,20 @@ def send_question():
     if amount > 3:
         return 4
 
-    sql = f"INSERT INTO questions (question) VALUES ('{question}');"
+    #sql = f"INSERT INTO questions (question) VALUES ('{question}');"
 
-    db.session.execute(text(sql))
+    sql = "INSERT INTO questions (question) VALUES (:question)"
+    db.session.execute(text(sql), {"question":question})
     db.session.commit()
 
-    sql4 = "SELECT COUNT(*) FROM questions;"
-    result = db.session.execute(text(sql4))
+    sql = "SELECT COUNT(*) FROM questions;"
+    result = db.session.execute(text(sql))
     count = str(result.fetchone())
     count = int(make_string(count))
-    sql2 = f"INSERT INTO answers (question_id, answer1, answer2, answer3, answer4) VALUES ('{count}', '{answer1}','{answer2}','{answer3}','{right_answer}');"
-    sql3 = f"INSERT INTO correct (question_id, answer) VALUES ('{count}', '{right_answer}');"
+    sql = f"INSERT INTO answers (question_id, answer1, answer2, answer3, answer4) VALUES (:count, :answer1, :answer2, :answer3, :right_answer);"
+    sql1 = f"INSERT INTO correct (question_id, answer) VALUES (:count, :right_answer);"
 
-    db.session.execute(text(sql2))
-    db.session.execute(text(sql3))
+    db.session.execute(text(sql), {"count":count, "answer1":answer1, "answer2":answer2, "answer3":answer3, "right_answer":right_answer})
+    db.session.execute(text(sql1), {"count":count, "right_answer":right_answer})
     db.session.commit()
     return 1
