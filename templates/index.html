@@ -1,13 +1,24 @@
-Welcome!
+{% if session.username %}
+<p>Welcome! {{ session.username }}</p>
+
 <p>
 This is the question show!
 <hr>
 <a href="/new">Send a new question -></a>
-<br>
-
-<br>
+<p>
 <a href="/get_question">Answer a existing question -></a>
-<br>
-
-<br>
+<p>
 <a href="/questions">See all available questions</a>
+<p>
+<a href="/logout">logout</a>
+
+{% else %}
+<form action="/login" method="POST">
+<p>Username:<br>
+<input type="text" name="username"></p>
+<p>Password:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="Login">
+</form>
+
+{% endif %}
