@@ -1,3 +1,4 @@
+from calendar import TUESDAY
 from app import app
 from db import db
 from flask import request
@@ -5,10 +6,21 @@ from sqlalchemy.sql import text
 from tools import make_string, check_length
 import random
 
+#Checks if a topic already exists in the database returns true if it does otherwise returns false
+def topic_exists(x):
+    sql = "SELECT topic FROM topics;"
+    result = db.session.execute(text(sql))
+    topics = result.fetchall()
+    for topic in topics:
+        if make_string(topic) == x:
+            return True
+    return False
+
 def get_all_questions():
     sql = "SELECT question FROM questions;"
     result = db.session.execute(text(sql))
     q = result.fetchall()
+    db.session.commit()
     questions = []
     i = 1
     for q in q:
@@ -65,6 +77,7 @@ def send_question():
     answer3 = request.form["answer3"]
     right_answer = request.form["right_answer"]
     answers = [answer1,answer2,answer3]
+    topic = request.form["topic"].lower()
 
     #Check if the question and answers are correct length 2
     for answer in answers:
@@ -87,11 +100,22 @@ def send_question():
     if amount > 3:
         return 4
 
-    #sql = f"INSERT INTO questions (question) VALUES ('{question}');"
+    if not topic_exists(topic):
+        sql = "INSERT INTO topics (topic) VALUES (:topic)"
+        db.session.execute(text(sql), {"topic":topic})
+        db.session.commit()
 
-    sql = "INSERT INTO questions (question) VALUES (:question)"
-    db.session.execute(text(sql), {"question":question})
+    sql6 = f"SELECT id FROM topics WHERE topic = '{topic}'"
+    result = db.session.execute(text(sql6))
+    topic_id = int(make_string(str(result.fetchone())))
     db.session.commit()
+
+    sql = "INSERT INTO questions (topic_id, question) VALUES (:topic_id, :question)"
+    db.session.execute(text(sql), {"topic_id":topic_id,"question":question})
+
+    db.session.commit()
+
+
 
     sql = "SELECT COUNT(*) FROM questions;"
     result = db.session.execute(text(sql))
@@ -104,3 +128,4 @@ def send_question():
     db.session.execute(text(sql1), {"count":count, "right_answer":right_answer})
     db.session.commit()
     return 1
+
