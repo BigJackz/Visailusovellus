@@ -1,5 +1,3 @@
-from calendar import TUESDAY
-from app import app
 from db import db
 from flask import request
 from sqlalchemy.sql import text
@@ -15,6 +13,11 @@ def topic_exists(x):
         if make_string(topic) == x:
             return True
     return False
+
+def loginn():
+    username = request.form["username"]
+    password = request.form["password"]
+    return username
 
 def get_all_questions():
     sql = "SELECT question FROM questions;"
@@ -77,21 +80,21 @@ def send_question():
     answer3 = request.form["answer3"]
     right_answer = request.form["right_answer"]
     answers = [answer1,answer2,answer3]
-    topic = request.form["topic"].lower()
+    topic = request.form["topic"].lower().strip()
 
-    #Check if the question and answers are correct length 2
+    #Check if the question, answers and topic are correct length returns 2
     for answer in answers:
         if check_length(answer, 1, 30) == False:
             return 2
-    if check_length(question, 1, 100) == False:
+    if check_length(question, 1, 100) == False or check_length(topic, 1, 20) == False:
         return 2
     
-    #Check if one of the wrong answers is same as right answer 3
+    #Check if one of the wrong answers is same as right answer returns 3
     for answer in answers:
         if answer == right_answer:
             return 3
 
-    #Finally check if two of the answers are the same return 4
+    #Finally check if two of the answers are the same returns 4
     amount = 0
     for answer in answers:
         for answer2 in answers:
@@ -99,6 +102,7 @@ def send_question():
                 amount += 1
     if amount > 3:
         return 4
+
 
     if not topic_exists(topic):
         sql = "INSERT INTO topics (topic) VALUES (:topic)"
@@ -121,10 +125,13 @@ def send_question():
     result = db.session.execute(text(sql))
     count = str(result.fetchone())
     count = int(make_string(count))
-    sql = f"INSERT INTO answers (question_id, answer1, answer2, answer3, answer4) VALUES (:count, :answer1, :answer2, :answer3, :right_answer);"
+    
+    sql = f"""INSERT INTO answers (question_id, answer1, answer2,
+              answer3, answer4) VALUES (:count, :answer1, :answer2, :answer3, :right_answer);"""
     sql1 = f"INSERT INTO correct (question_id, answer) VALUES (:count, :right_answer);"
 
-    db.session.execute(text(sql), {"count":count, "answer1":answer1, "answer2":answer2, "answer3":answer3, "right_answer":right_answer})
+    (db.session.execute(text(sql), {"count":count, "answer1":answer1, "answer2":answer2,
+    "answer3":answer3, "right_answer":right_answer}))
     db.session.execute(text(sql1), {"count":count, "right_answer":right_answer})
     db.session.commit()
     return 1
