@@ -17,6 +17,22 @@ def topic_exists(x):
             return True
     return False
 
+def see_this_question():
+    topic_id = request.form["id"]
+    sql = "SELECT * FROM questions WHERE topic_id=:topic_id;"
+    result = db.session.execute(text(sql), {"topic_id":topic_id})
+    questions = result.fetchall()
+    return questions
+
+
+def get_topics():
+    query = request.args["query"]
+    sql = "SELECT * FROM topics WHERE topic LIKE :query"
+    result = db.session.execute(text(sql), {"query":"%"+query+"%"})
+    topics = result.fetchall()
+    print(topics)
+    return topics
+
 def login_to_service():
     username = request.form["username"]
     password = request.form["password"]
@@ -54,22 +70,15 @@ def create_new_user():
     return 3
 
 def get_all_questions():
-    sql = "SELECT question FROM questions;"
+    sql = "SELECT * FROM questions;"
     sql2 = "SELECT COUNT(question) FROM questions;"
     result = db.session.execute(text(sql2))
     count = result.fetchone()
     count = int(make_string(count))
     if count == 0:
         return False
-
     result = db.session.execute(text(sql))
-    q = result.fetchall()
-    db.session.commit()
-    questions = []
-    i = 1
-    for q in q:
-        questions.append((make_string(q),i))
-        i += 1
+    questions = result.fetchall()
     return questions
 
 def get_question_and_answers(id):
@@ -157,8 +166,8 @@ def send_question():
         db.session.execute(text(sql), {"topic":topic})
         db.session.commit()
 
-    sql6 = f"SELECT id FROM topics WHERE topic = '{topic}';"
-    result = db.session.execute(text(sql6))
+    sql = f"SELECT id FROM topics WHERE topic = '{topic}';"
+    result = db.session.execute(text(sql))
     topic_id = int(make_string(str(result.fetchone())))
     db.session.commit()
 
@@ -180,4 +189,3 @@ def send_question():
     db.session.execute(text(sql2), {"count":count, "right_answer":right_answer})
     db.session.commit()
     return 1
-
