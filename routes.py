@@ -5,7 +5,6 @@ from os import getenv
 
 app.secret_key = getenv("SECRET_KEY")
 
-
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -65,7 +64,6 @@ def send():
     if answer == 1:
         return redirect("/success")
     elif answer == 2:
-        #quite big error message maybe make 3 separate errors at some point
         return (render_template("error.html", error = "Question, topic or one of the answers i"
         "s too long or short! Question must be between 1 and 100 characters, topic between 1 and 20 characters"
         " and answers between 1 and 30 characters."))
