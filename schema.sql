@@ -6,4 +6,4 @@ CREATE TABLE answers (id SERIAL PRIMARY KEY, question_id INTEGER REFERENCES ques
 
 CREATE TABLE correct (id SERIAL PRIMARY KEY, question_id INTEGER REFERENCES questions, answer TEXT);
 
-
+CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT UNIQUE, password TEXT);
