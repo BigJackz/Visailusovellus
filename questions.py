@@ -29,7 +29,6 @@ def get_topics():
     sql = "SELECT * FROM topics WHERE topic LIKE :query"
     result = db.session.execute(text(sql), {"query":"%"+query+"%"})
     topics = result.fetchall()
-    print(topics)
     return topics
 
 def login_to_service():

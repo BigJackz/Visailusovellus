@@ -21,7 +21,6 @@ def search_for():
 @app.route("/see_questions", methods=["POST"])
 def see_questions():
     questions = see_this_question()
-    print(questions)
     return render_template("questions.html", questions=questions)
 
 @app.route("/login", methods=["POST"])
@@ -107,7 +106,6 @@ def questions():
 @app.route("/get_this_question", methods=["GET", "POST"])
 def get_this_question():
     id = int(request.form["id"])
-    print(id)
     random_order, question, final_answers, id = get_question_and_answers(id)
     return (render_template("answer.html", question=question, answer1=final_answers[random_order[0]],
             answer2=final_answers[random_order[1]], answer3=final_answers[random_order[2]],
