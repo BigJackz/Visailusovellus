@@ -3,6 +3,7 @@ from flask import request
 from sqlalchemy.sql import text
 from tools import make_string, check_length
 import random
+from werkzeug.security import check_password_hash, generate_password_hash
 
 #Checks if a topic already exists in the database returns true if it does otherwise returns false
 def topic_exists(x):
@@ -14,10 +15,19 @@ def topic_exists(x):
             return True
     return False
 
-def loginn():
+def login_to_service():
     username = request.form["username"]
     password = request.form["password"]
+    #CHECK THE USERNAME AND PASSWORD
     return username
+
+def create_new_user():
+    username = request.form["username"]
+    password = request.form["password"]
+    hash_value = generate_password_hash(password)
+    sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
+    db.session.execute(text(sql), {"username":username, "password":hash_value})
+    db.session.commit()
 
 def get_all_questions():
     sql = "SELECT question FROM questions;"
