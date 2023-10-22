@@ -27,6 +27,7 @@ def see_this_question():
 
 def get_topics():
     query = request.args["query"]
+    query = query.lower()
     sql = "SELECT * FROM topics WHERE topic LIKE :query"
     result = db.session.execute(text(sql), {"query":"%"+query+"%"})
     topics = result.fetchall()
