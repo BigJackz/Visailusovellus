@@ -1,5 +1,8 @@
 {% if session.username %}
-<p>Welcome! {{ session.username }}</p>
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+<h1>Welcome! {{ session.username }}</h1>
 
 <p>
 This is the question show!
@@ -28,5 +31,5 @@ This is the question show!
 </form>
 <p>
 <a href="/create">Create new user</a>
-
+</body>
 {% endif %}
