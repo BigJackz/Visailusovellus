@@ -39,7 +39,7 @@ pip install flask-sqlalchemy
 pip install python-dotenv
 pip install psycopg2 tai pip install psycopg2-binary
 ```
-Luo tietokannat tiedostosta schema.sql (sisältää tietokannat nimeltä, questions, answers, correct)
+Luo tietokannat tiedostosta schema.sql (sisältää tietokannat nimeltä, questions, answers, correct, users, topics)
 ```
 psql < schema.sql
 ```
