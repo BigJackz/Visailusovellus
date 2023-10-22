@@ -1,0 +1,10 @@
+
+{% for topic in topics %}
+<li> {{ topic.topic }} <form action="/see_questions" method="POST">
+        <input type="hidden" name="id" value="{{ topic.id }}">
+        <input type="submit" value="See available questions">
+    </form> 
+</li>
+{% endfor %}
+
+<a href="/">Go back</a>
