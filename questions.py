@@ -107,7 +107,6 @@ def get_question_and_answers(id):
     for answer in all:
         answer = make_string(answer)
         final_answers.append(answer)
-
     question = make_string(question)
 
     random_order = []
