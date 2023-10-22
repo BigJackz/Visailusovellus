@@ -1,6 +1,6 @@
 {% if session.username %}
 Found topics:
-
+<br>
 {% for topic in topics %}
 <li> {{ topic.topic }} <form action="/see_questions" method="POST">
         <input type="hidden" name="id" value="{{ topic.id }}">
