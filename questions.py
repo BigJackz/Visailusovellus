@@ -6,7 +6,6 @@ from tools import make_string, check_length
 import random
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
 #Checks if a topic already exists in the database returns true if it does otherwise returns false
 def topic_exists(x):
     sql = "SELECT topic FROM topics;"
@@ -23,7 +22,6 @@ def see_this_question():
     result = db.session.execute(text(sql), {"topic_id":topic_id})
     questions = result.fetchall()
     return questions
-
 
 def get_topics():
     query = request.args["query"]
@@ -160,7 +158,6 @@ def send_question():
                 amount += 1
     if amount > 3:
         return 4
-
 
     if not topic_exists(topic):
         sql = "INSERT INTO topics (topic) VALUES (:topic);"
