@@ -10,7 +10,7 @@ This is the question show!
 <p>
 <a href="/questions">See all available questions</a>
 <p>
-<a href="/logout">logout</a>
+<a href="/logout">Logout</a>
 
 {% else %}
 <form action="/login" method="POST">
@@ -20,5 +20,7 @@ This is the question show!
 <input type="password" name="password"></p>
 <input type="submit" value="Login">
 </form>
+<p>
+<a href="/create">Create new user</a>
 
 {% endif %}
