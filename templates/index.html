@@ -6,17 +6,23 @@ This is the question show!
 <hr>
 <a href="/new">Send a new question -></a>
 <p>
-<a href="/get_question">Answer a existing question -></a>
+<form action="/search_for" method="GET">
+    Search for topics: <input type="text" name="query">
+    <br>
+    <input type="submit" value="Search">
+</form>
 <p>
 <a href="/questions">See all available questions</a>
 <p>
+<a href="/get_question">Answer a random existing question -></a>
+<p>
 <a href="/logout">Logout</a>
-
+<p>
 {% else %}
+<p>Username:</p>
 <form action="/login" method="POST">
-<p>Username:<br>
 <input type="text" name="username"></p>
-<p>Password:<br>
+<p>Password:</p>
 <input type="password" name="password"></p>
 <input type="submit" value="Login">
 </form>
