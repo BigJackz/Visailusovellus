@@ -1,6 +1,6 @@
 from app import app
 from flask import redirect, render_template, session
-from questions import get_all_questions, get_question_and_answers, get_result, send_question, loginn
+from questions import create_new_user, get_all_questions, get_question_and_answers, get_result, send_question, login_to_service
 from os import getenv
 
 app.secret_key = getenv("SECRET_KEY")
@@ -9,10 +9,9 @@ app.secret_key = getenv("SECRET_KEY")
 def index():
     return render_template("index.html")
 
-
 @app.route("/login", methods=["POST"])
 def login():
-    username = loginn()
+    username = login_to_service()
     session["username"] = username
     return redirect("/")
 
@@ -21,6 +20,14 @@ def logout():
     del session["username"]
     return redirect("/")
 
+@app.route("/create")
+def create():
+    return render_template("create.html")
+
+@app.route("/create_new_user", methods=["POST"])
+def create_user():
+    create_new_user()
+    return render_template("account_created.html")
 
 @app.route("/new")
 def new():
