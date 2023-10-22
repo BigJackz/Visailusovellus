@@ -1,9 +1,10 @@
 
 <ul>
-    {% for q in questions %}
-    <li> {{ q[0] }} 
-        <form action="/get_this_question" method="POST"> <!-- <input type="submit" value="Answer this question"> -->
-        <input type="hidden" name="id" value="{{ q[1] }}">
+    {% for question in questions %}
+    <li> {{ question.question }} <form action="/get_this_question" method="POST">
+            <input type="hidden" name="id" value="{{ question.id }}">
+            <input type="submit" value="Answer this question">
+        </form> 
     {% endfor %}
 </ul>
 
