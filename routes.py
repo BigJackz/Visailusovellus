@@ -1,6 +1,6 @@
 from app import app
-from flask import redirect, render_template, session, request, abort
-from questions import create_new_user, get_all_questions, get_question_and_answers, get_result, send_question, login_to_service
+from flask import redirect, render_template, session, request
+from questions import create_new_user, get_all_questions, get_question_and_answers, get_result, see_this_question, send_question, login_to_service, get_topics
 from os import getenv
 
 app.secret_key = getenv("SECRET_KEY")
@@ -9,6 +9,21 @@ app.secret_key = getenv("SECRET_KEY")
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/search")
+def search():
+    return render_template("search.html")
+
+@app.route("/search_for")
+def search_for():
+    topics = get_topics()
+    return render_template("results.html", topics=topics)
+
+@app.route("/see_questions", methods=["POST"])
+def see_questions():
+    questions = see_this_question()
+    print(questions)
+    return render_template("questions.html", questions=questions)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -93,9 +108,9 @@ def questions():
 
 @app.route("/get_this_question", methods=["GET", "POST"])
 def get_this_question():
-    #id = int(request.form["id"])
-    #print(id)
-    random_order, question, final_answers, id = get_question_and_answers(-1)
+    id = int(request.form["id"])
+    print(id)
+    random_order, question, final_answers, id = get_question_and_answers(id)
     return (render_template("answer.html", question=question, answer1=final_answers[random_order[0]],
             answer2=final_answers[random_order[1]], answer3=final_answers[random_order[2]],
             answer4=final_answers[random_order[3]], id = id))
