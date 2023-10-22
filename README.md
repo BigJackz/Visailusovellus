@@ -2,39 +2,19 @@
 
 ## Visailusovellus
 
-Sovelluksen perusidea on, että sivulta löytyy visoja erinäisillä aiheilla, joita voi etsiä hakusanoilla.
+Sovelluksen perusidea on, että sivulta löytyy kysymyksiä erinäisillä aiheilla.
 
-Jokainen visa sisältää jonkin määrän kysymyksiä (mahdollisesti 10), sekä jokaiseen kysymykseen 4 vastausta, joista 1 on oikea ja 3 väärää vastausta.
+Sovellu sisältää yksittäisiä kysymyksiä, joissa on 1 oikea vastaus ja 3 väärää.
 
 Käyttäjä voi luoda tunnuksen, kirjautua sisään sekä ulos.
 
-Käyttäjä voi luoda sivulle uuden visan vastauksineen, sekä pelata sivulta jo löytyviä visoja.
+Kirjautumisen jälkeen käyttäjä voi luoda sivulle uusia kysymyksiä vastauksineen, sekä vastata sivulta jo löytyviin kysymyksiin.
 
-Sivulta löytyy tilastot, joissa näkyy eniten täydellisesti suoritettuja visoja omaava käyttäjä sekä määrä siitä, montako visaa on suorittanut täydellisesti, mahdollisesti myös mitkä visat.
+Käyttäjä voi vastata joko satunnaiseen kysymykseen, etsiä kysymyksiä liittyen haettuun aiheeseen tai selata kaikki lisättyjä kysymyksiä ja valita niistä mihin vastaa.
 
-Täydellisesti suoritettu visa on sellainen, jossa henkilö ei vastaa kertaakaan väärin.
-
-Mahdollinen haluatko miljonääriksi muoto, jossa tulisi monta visaa putkeen ja yhdellä väärällä vastauksella tippuu pois. (jos jää aikaa toteuttaa)
+Sovelluksen ulkoasu jäi hieman köyhäksi.
 
 ------------------------------------------------------------------------------
-
-## Nykytilanne
-
-Sovelluksessa on mahdollista luoda yksittäisiä kysymyksiä sekä vastata satunnaisiin jo luotuoihin kysymyksiin. Kysymysten satunnaisuus tulee muuttumaan, mutta aluksi nyt vain näin, että sovellusta oli mukavampi testata.
-
-Sovellus vaatii tällä hetkellä kolmea eri tietokantaa, questions, answers sekä correct. Lisää tulossa myöhemmin viimeistään sovelluksen viimeiseen versioon.
-
-Sovelluksen koodi refaktoroitu useampaan tiedostoon.
-
-Sovellukseen tulossa vielä kirjautuminen, sekä tietokanta, joka pitää yllä 10 kysymyksen visoja.
-
-Sovelluksessa on mahdollista tarkastella kaikkia lisättyjä kysymyksiä, joista tulevaisuudessa pitäisi voida valita mihin aikoo vastata.
-
-Sovelluksen sivujen navigointia parannettu.
-
-Sovellus jäi ominaisuuksiltaan vielä puutteelliseksi ajan puutteen takia. Sovellukseen on tulossa ainakin 2 uutta tietokantaa, joten kurssin vähimmäismäärä tulee täyteen.
-
-HUOM! En saanut kurssimateriaalin mukaista sql injektion estämistä toimimaan, joten ymmärtääkseni sql injektio on vielä mahdollista tässä sovelluksessa.
 
 ## Käynnistysohje
 
@@ -46,9 +26,10 @@ Siirry sitten sovelluksen juurikansioon
 ```
 cd Visailusovellus
 ```
-Luo .env tiedosto ja lisää sinne tietokannan paikallinen osoite
+Luo .env tiedosto ja lisää sinne tietokannan paikallinen osoite sekä salainen avain
 ```
 DATABASE_URL=<tietokannan_paikallinen_osoite>
+SECRET_KEY=<salainen_avain>
 ```
 Aktivoi virtuaaliympäristö ja asenna riippuvuudet (requirements.txt saattaa sisältää liikaa riippuvuuksia, käytin kurssimateriaalin tyyliä luoda requirements.txt)
 ```
