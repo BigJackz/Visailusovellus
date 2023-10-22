@@ -1,3 +1,5 @@
+{% if session.username %}
+Found topics:
 
 {% for topic in topics %}
 <li> {{ topic.topic }} <form action="/see_questions" method="POST">
@@ -8,3 +10,12 @@
 {% endfor %}
 
 <a href="/">Go back</a>
+
+{% else %}
+Please login or create a user
+<br>
+<a href="/">Go to main page</a>
+<br>
+<a href="/create">Create new user</a>
+
+{% endif %}

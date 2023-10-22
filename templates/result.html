@@ -1,6 +1,16 @@
+{% if session.username %}
 You chose {{ chosen }} unfortunately that isn't correct.
 <hr>
 Right answer was {{ correct }}
 <br>
 <hr>
 <a href="/">Go back</a>
+
+{% else %}
+Please login or create a user
+<br>
+<a href="/">Go to main page</a>
+<br>
+<a href="/create">Create new user</a>
+
+{% endif %}
