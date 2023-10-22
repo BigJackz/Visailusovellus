@@ -1,9 +1,10 @@
 from app import app
-from flask import redirect, render_template, session
+from flask import redirect, render_template, session, request, abort
 from questions import create_new_user, get_all_questions, get_question_and_answers, get_result, send_question, login_to_service
 from os import getenv
 
 app.secret_key = getenv("SECRET_KEY")
+
 
 @app.route("/")
 def index():
@@ -12,8 +13,13 @@ def index():
 @app.route("/login", methods=["POST"])
 def login():
     username = login_to_service()
-    session["username"] = username
-    return redirect("/")
+    if username == False:
+        return render_template("error.html", error="There is no user with that username.")
+    elif username == True:
+        return render_template("error.html", error="Wrong password.")
+    else:
+        session["username"] = username
+        return redirect("/")
 
 @app.route("/logout")
 def logout():
@@ -26,8 +32,13 @@ def create():
 
 @app.route("/create_new_user", methods=["POST"])
 def create_user():
-    create_new_user()
-    return render_template("account_created.html")
+    value = create_new_user()
+    if value == 3:
+        return render_template("account_created.html")
+    elif value == 1:
+        return render_template("error.html", error="That username is already taken!")
+    else:
+        return render_template("error.html", error="Username and password have to be atleast 3 characters long.")
 
 @app.route("/new")
 def new():
@@ -39,7 +50,7 @@ def send():
     if answer == 1:
         return redirect("/success")
     elif answer == 2:
-        #quite fat error message maybe make 3 separate errors at some point
+        #quite big error message maybe make 3 separate errors at some point
         return (render_template("error.html", error = "Question, topic or one of the answers i"
         "s too long or short! Question must be between 1 and 100 characters, topic between 1 and 20 characters"
         " and answers between 1 and 30 characters."))
@@ -55,6 +66,8 @@ def success():
 @app.route("/get_question", methods=["GET"])
 def get_question():
     random_order, question, final_answers,id = get_question_and_answers(-1)
+    if id == False:
+        return render_template("error.html", error="There is 0 questions added.")
     return (render_template("answer.html", question=question, answer1=final_answers[random_order[0]],
             answer2=final_answers[random_order[1]], answer3=final_answers[random_order[2]],
             answer4=final_answers[random_order[3]], id = id))
@@ -74,6 +87,8 @@ def result():
 @app.route("/questions", methods=["GET"])
 def questions():
     questions = get_all_questions()
+    if questions == False:
+        return render_template("error.html", error="There is 0 questions added.")
     return render_template("questions.html", questions=questions)
 
 @app.route("/get_this_question", methods=["GET", "POST"])

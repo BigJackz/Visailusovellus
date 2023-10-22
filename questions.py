@@ -1,9 +1,11 @@
+import secrets
 from db import db
-from flask import request
+from flask import request, session, abort
 from sqlalchemy.sql import text
 from tools import make_string, check_length
 import random
 from werkzeug.security import check_password_hash, generate_password_hash
+
 
 #Checks if a topic already exists in the database returns true if it does otherwise returns false
 def topic_exists(x):
@@ -18,19 +20,48 @@ def topic_exists(x):
 def login_to_service():
     username = request.form["username"]
     password = request.form["password"]
-    #CHECK THE USERNAME AND PASSWORD
-    return username
+    sql = "SELECT id, password FROM users WHERE username=:username;"
+    result = db.session.execute(text(sql), {"username":username})
+    user = result.fetchone()
+    if not user:
+        return False
+    else:
+        hash_value = user.password
+        if check_password_hash(hash_value, password):
+            session["csrf_token"] = secrets.token_hex(16)
+            return username
+        else:
+            return True
 
 def create_new_user():
     username = request.form["username"]
     password = request.form["password"]
+    sql = "SELECT COUNT(username) FROM users WHERE username=:username;"
+    result = db.session.execute(text(sql), {"username":username})
+    count = result.fetchone()
+    count = int(make_string(count))
+    db.session.commit()
+    if count != 0:
+        return 1
+    if len(username) < 3:
+        return 2
+    if len(password) < 3:
+        return 2
     hash_value = generate_password_hash(password)
-    sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
+    sql = "INSERT INTO users (username, password) VALUES (:username, :password);"
     db.session.execute(text(sql), {"username":username, "password":hash_value})
     db.session.commit()
+    return 3
 
 def get_all_questions():
     sql = "SELECT question FROM questions;"
+    sql2 = "SELECT COUNT(question) FROM questions;"
+    result = db.session.execute(text(sql2))
+    count = result.fetchone()
+    count = int(make_string(count))
+    if count == 0:
+        return False
+
     result = db.session.execute(text(sql))
     q = result.fetchall()
     db.session.commit()
@@ -44,16 +75,21 @@ def get_all_questions():
 def get_question_and_answers(id):
     sql = "SELECT COUNT(*) FROM questions;"
     result = db.session.execute(text(sql))
+    another_one = db.session.execute(text(sql))
+    count = another_one.fetchone()
+    count = int(make_string(count))
+    if count == 0:
+        return [], "s", [], False 
 
     #set id to -1 to get a random question
     if id == -1:
         id = random.randint(1,int(make_string(str(result.fetchone()))))
     
-    sql = f"SELECT question FROM questions WHERE id=:id"
+    sql = f"SELECT question FROM questions WHERE id=:id;"
     result = db.session.execute(text(sql), {"id":id})
     question = result.fetchone()
 
-    sql = f"SELECT (answer1, answer2, answer3, answer4) FROM answers WHERE question_id = :id"
+    sql = f"SELECT (answer1, answer2, answer3, answer4) FROM answers WHERE question_id = :id;"
     result = db.session.execute(text(sql), {"id":id})
     answers = result.fetchall()
 
@@ -77,13 +113,15 @@ def get_question_and_answers(id):
 def get_result():
     answer = request.form["answer"]
     id = request.form["id"]
-    sql = f"SELECT answer FROM correct WHERE question_id=:id"
+    sql = f"SELECT answer FROM correct WHERE question_id=:id;"
     result = db.session.execute(text(sql), {"id":id})
     correct = result.fetchone()
     correct = make_string(correct)
     return correct, answer
 
 def send_question():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     question = request.form["question"]
     answer1 = request.form["answer1"]
     answer2 = request.form["answer2"]
@@ -115,21 +153,18 @@ def send_question():
 
 
     if not topic_exists(topic):
-        sql = "INSERT INTO topics (topic) VALUES (:topic)"
+        sql = "INSERT INTO topics (topic) VALUES (:topic);"
         db.session.execute(text(sql), {"topic":topic})
         db.session.commit()
 
-    sql6 = f"SELECT id FROM topics WHERE topic = '{topic}'"
+    sql6 = f"SELECT id FROM topics WHERE topic = '{topic}';"
     result = db.session.execute(text(sql6))
     topic_id = int(make_string(str(result.fetchone())))
     db.session.commit()
 
-    sql = "INSERT INTO questions (topic_id, question) VALUES (:topic_id, :question)"
+    sql = "INSERT INTO questions (topic_id, question) VALUES (:topic_id, :question);"
     db.session.execute(text(sql), {"topic_id":topic_id,"question":question})
-
     db.session.commit()
-
-
 
     sql = "SELECT COUNT(*) FROM questions;"
     result = db.session.execute(text(sql))
@@ -138,11 +173,11 @@ def send_question():
     
     sql = f"""INSERT INTO answers (question_id, answer1, answer2,
               answer3, answer4) VALUES (:count, :answer1, :answer2, :answer3, :right_answer);"""
-    sql1 = f"INSERT INTO correct (question_id, answer) VALUES (:count, :right_answer);"
+    sql2 = f"INSERT INTO correct (question_id, answer) VALUES (:count, :right_answer);"
 
     (db.session.execute(text(sql), {"count":count, "answer1":answer1, "answer2":answer2,
     "answer3":answer3, "right_answer":right_answer}))
-    db.session.execute(text(sql1), {"count":count, "right_answer":right_answer})
+    db.session.execute(text(sql2), {"count":count, "right_answer":right_answer})
     db.session.commit()
     return 1
 
