@@ -1,29 +1,37 @@
+{% if session.username %}
 <form action="/send" method="POST">
 Topic: <br>
 <textarea name="topic" rows="1" cols="50"></textarea>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <br>
 <br>
 Question: <br>
 <textarea name="question" rows="1" cols="50"></textarea>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <br>
 <br>
 Wrong answer 1:<br>
 <textarea name="answer1" rows="2" cols="50"></textarea>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <br>
 <br>
 Wrong answer 2:<br>
 <textarea name="answer2" rows="2" cols="50"></textarea>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <br>
 <br>
 Wrong answer 3:<br>
 <textarea name="answer3" rows="2" cols="50"></textarea>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <br>
 <br>
 Right answer:<br>
 <textarea name="right_answer" rows="2" cols="50"></textarea>
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <br>
 <br>
 <input type="submit" value="Send">
 </form>
 <br>
 <a href="/">Return</a>
+{% endif %}
